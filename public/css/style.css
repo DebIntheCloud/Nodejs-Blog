@@ -8,7 +8,7 @@
     --font-size-base: 1rem;
     --font-size-md: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
     --font-size-lg: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
-    --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+    --font-size-xl: clamp(2rem, 1.5vw + 1.5rem, 3rem);
     --border-radius: 10px;
 }
 
@@ -18,10 +18,25 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--black);
     font-size: var(--font-size-base);
-    background-color: #FAF5EE;
-    background-image: url("/img/img-noise-361x370.png");
+    background-image: url('/img/12.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     margin: 0;
 }
+
+.overlay-wrapper::before {
+    content: ""; /*element won’t display anything (like text or symbols) — just whatever styling we give it*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); /* adjust for lightness */
+    z-index: -1;
+    pointer-events: none; /* ensures it doesn't block clicks */
+  }
 
 a { color: var(--black);}
 h1 { font-size: var(--font-size-xl);}
@@ -76,8 +91,11 @@ img {
 
 /* Hero Section */
 .hero-image {
-    max-height: 528px;
-    width: 90%; 
+    max-height: 500px;
+    max-width: 650px;
+    height: auto;     /* maintains the correct aspect ratio */
+    display: block;
+    margin: 0 auto; 
     filter: drop-shadow(0px 44px 34px rgba(0,0,0,0.25));
     overflow: hidden;
     border-radius: var(--border-radius);
@@ -180,14 +198,26 @@ img {
 }
 
 .author__body {
-    font-size: var(--font-size-md);
+    /*font-size: var(--font-size-md);*/
+    font-size: 1.2rem;
     margin: 5px 0 40px 0;
 }
 
 /*Home Article List */
+.articles_overlay{
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+
 .article__heading {
     margin-top: 4rem;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .article-ul {
@@ -201,10 +231,12 @@ img {
 
 .article-list__date {
     font-size: var(--font-size-base);
-    color: var(--gray);
+    color: #5a5a5a; 
     width: 260px;
+    font-weight: bold;
     display: inline-block;
 }
+
 
 .article-ul li a {
     display: flex;
@@ -214,6 +246,12 @@ img {
     margin: 18px 0;
 }
 
+.article-ul li a span:first-child {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--black); /* or white, depending on background */
+  }
+  
 
 @media only screen and (min-width: 786px) {
     .article-ul li a {
@@ -262,7 +300,56 @@ img {
 
 .article {
     white-space: pre-wrap;
+    font-size: 1.2rem;
 }
+
+/* Contact form*/
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 2rem auto;
+    gap: 1rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  
+  .contact-form label {
+    font-weight: 600;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+  }
+  
+  .contact-form button {
+    background-color: var(--black);
+    color: white;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .contact-form button:hover {
+    background-color: var(--gray);
+  }
+  
+  #formSuccess {
+    display: none;
+    color: green;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
 
 /* Footer */
 .footer {

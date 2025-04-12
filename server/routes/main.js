@@ -85,6 +85,16 @@ router.get('/post/:id', async (req, res) => {
 });
 
 
+router.get('/contact', (req, res) => {
+  res.render('contact', {
+    title: "Contact",
+    description: "Send me a message",
+    currentRoute: "/contact"
+  });
+});
+
+
+
 /**
  * POST
  * Post - searchTerm
@@ -111,7 +121,8 @@ router.post('/search', async (req, res) => {
 
         res.render("search", {
             data,
-            locals
+            locals,
+            currentRoute: '/search'
         });
 
 
