@@ -64,23 +64,26 @@ router.get('', async (req, res) => {
 // Routes
 
 router.get('/post/:id', async (req, res) => {
-    try {
-        let slug = req.params.id;
+  try {
+    let slug = req.params.id;
 
-        const data = await Post.findById({ _id: slug });
+    const data = await Post.findById(slug);
 
-        const locals = {
-            title: data.title,
-            description: "Simple Blog created wtih NodeJs, Express & MongoDb.",
-            currentRoute: `/post/${slug}`
-        }
-        
+    const locals = {
+      title: data.title,
+      description: "Simple Blog created wtih NodeJs, Express & MongoDb.",
+      currentRoute: `/post/${slug}`
+    };
 
-        res.render('post', { locals, data });
-    } catch (error) {
-        consaole.log('error');
-    }
+    res.render('post', { 
+      ...locals,
+      data
+    }); //  this closes the render call correctly
+  } catch (error) {
+    console.log(error);
+  }
 });
+
 
 /**
  * POST
