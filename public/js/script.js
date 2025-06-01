@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', function(){
             searchInput.focus();         
         });
     }
+    console.log('searchClose:', searchClose);
+    if (searchClose) {
     searchClose.addEventListener('click', function() {
         searchBar.style.visibility = 'hidden';
         searchBar.classList.remove('open');
         this.setAttribute('aria-expanded', 'false');       
     });
-
+    }
 });
