@@ -23,6 +23,7 @@ const authMiddleware = (req, res, next ) => {
     try {
         const decoded = jwt.verify(token, jwtSecret);
         req.userId = decoded.userId;
+        req.userRole = decoded.role;
         next();
     } catch(error) {
         return res.status(401).json({ message: 'Unauthorized' });       
@@ -51,28 +52,39 @@ router.get('/admin', async (req, res) => {
  * Admin - Check Login
 */
 router.post('/admin', async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
+  try {
+    console.log('Login attempt:', req.body);
 
-        if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    console.log('User found:', user);
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        const token = jwt.sign({ userId: user._id }, jwtSecret);
-        res.cookie('token', token, { httpOnly: true });
-        res.redirect('/dashboard');
-    } catch (error) {
-        console.error('Error in /admin POST:', error);
-        res.status(500).send('Internal Server Error');
+    if (!user) {
+      console.log('No user found for username:', username);
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log(`Password valid: ${isPasswordValid} for username: ${username}`);
+
+    if (!isPasswordValid) {
+      console.log('Invalid password');
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      jwtSecret
+    );
+
+    res.cookie('token', token, { httpOnly: true });
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error('Error in /admin POST:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 
 /**
  * GET /
