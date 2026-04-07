@@ -4,3 +4,4 @@ services:
     restart: unless-stopped
     ports:
       - "8002:3000"
+  mongodb: 
