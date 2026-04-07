@@ -1,0 +1,6 @@
+services:
+  nodejs-blog:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8002:3000"
